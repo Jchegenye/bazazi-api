@@ -25,7 +25,7 @@ class LoginController extends Controller
       ];
 
         $customMessages = [
-           'required' => ':attribute tidak boleh kosong'
+           'required' => ':attribute field is empty.'
       ];
         $this->validate($request, $rules, $customMessages);
          $email    = $request->input('email');
@@ -35,15 +35,16 @@ class LoginController extends Controller
                 if ($login->count() > 0) {
                     if (Hash::check($request->input('password'), $login->password)) {
                         try {
-                            $api_token = sha1($login->id_user.time());
+                            
+                                $api_token = sha1($login->user_id.time());
+                                $create_token = User::where('user_id', $login->user_id)->update(['api_token' => $api_token]);
 
-                              $create_token = User::where('id', $login->id_user)->update(['api_token' => $api_token]);
-                              $res['status'] = true;
-                              $res['message'] = 'Success login';
-                              $res['data'] =  $login;
-                              $res['api_token'] =  $api_token;
+                                $res['status'] = true;
+                                $res['message'] = 'Success login';
+                                $res['data'] =  $login;
+                                $res['api_token'] =  $create_token;
 
-                              return response($res, 200);
+                                return response($res, 200);
 
 
                         } catch (\Illuminate\Database\QueryException $ex) {
@@ -53,17 +54,17 @@ class LoginController extends Controller
                         }
                     } else {
                         $res['success'] = false;
-                        $res['message'] = 'Username / email / password not found';
+                        $res['message'] = 'Username | email | password not found';
                         return response($res, 401);
                     }
                 } else {
                     $res['success'] = false;
-                    $res['message'] = 'Username / email / password  not found';
+                    $res['message'] = 'Username | email | password  not found';
                     return response($res, 401);
                 }
             } else {
                 $res['success'] = false;
-                $res['message'] = 'Username / email / password not found';
+                $res['message'] = 'Username | email | password not found';
                 return response($res, 401);
             }
         } catch (\Illuminate\Database\QueryException $ex) {
