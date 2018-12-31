@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use App\User;
+use App\Http\Reuseable\JsonPrettyStyle;
 
 class UserController extends Controller
 {
+
+    use JsonPrettyStyle;
 
     /**
      * Register a new user.
@@ -67,19 +71,24 @@ class UserController extends Controller
 
         if ($user->isEmpty()) {
 
-            $res['status'] = false;
-            $res['message'] = 'Cannot find user(s)!';
-
-            return response($res);
+            return $this->pre(
+                array(
+                    'status' => false,
+                    'message' => "Cannot find user(s)!"
+                )
+            );
 
         }else{
 
-            $res['status'] = true;
-            $res['message'] = $user;
-
-            return response($res);
+            return $this->pre(
+                array(
+                    'status' => true,
+                    'users' => $user
+                )
+            );
 
         }
 
     }
+
 }
