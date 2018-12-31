@@ -42,7 +42,7 @@ class LoginController extends Controller
                                 $res['status'] = true;
                                 $res['message'] = 'Success login';
                                 $res['data'] =  $login;
-                                $res['api_token'] =  $create_token;
+                                $res['api_token'] =  $api_token;
 
                                 return response($res, 200);
 
