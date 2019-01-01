@@ -1,0 +1,25 @@
+{
+    "name": "jchegenye/myauthentication",
+    "description": "A simple user authentication for lumen.",
+    "type": "lumen, authentication",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jackson Chegenye",
+            "email": "chegenyejackson@gmail.com",
+            "role": "Software Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Jchegenye\\MyAuthentication\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jchegenye\\MyAuthentication\\Http\\Controllers\\": "Http/controllers/"
+        }
+    }
+}
